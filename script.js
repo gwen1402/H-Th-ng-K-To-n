@@ -1577,3 +1577,40 @@ function updateEmailStatus() {
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(updateEmailStatus, 500);
 });
+
+
+// ===== MOBILE MENU =====
+function toggleMobileMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const hamburger = document.getElementById('hamburger');
+    const overlay = document.getElementById('mobileOverlay');
+    
+    sidebar.classList.toggle('open');
+    hamburger.classList.toggle('active');
+    overlay.classList.toggle('active');
+}
+
+// Đóng menu khi click vào menu item trên mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                setTimeout(toggleMobileMenu, 300);
+            }
+        });
+    });
+    
+    // Đóng menu khi resize về desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            const sidebar = document.getElementById('sidebar');
+            const hamburger = document.getElementById('hamburger');
+            const overlay = document.getElementById('mobileOverlay');
+            
+            sidebar.classList.remove('open');
+            hamburger.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    });
+});

@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Kế Toán</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-chart-line"></i>
+            <h2>Hệ Thống Kế Toán</h2>
+        </div>
+        <nav class="menu">
+            <a href="#" class="menu-item active" onclick="showSection('dashboard')">
+                <i class="fas fa-home"></i>
+                <span>Tổng Quan</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('receipt')">
+                <i class="fas fa-hand-holding-usd"></i>
+                <span>Phiếu Thu</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('payment')">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Phiếu Chi</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('invoice')">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Hóa Đơn</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('customer')">
+                <i class="fas fa-users"></i>
+                <span>Khách Hàng</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('supplier')">
+                <i class="fas fa-building"></i>
+                <span>Nhà Cung Cấp</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('material')">
+                <i class="fas fa-boxes"></i>
+                <span>Nguyên Vật Liệu</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('opening')">
+                <i class="fas fa-wallet"></i>
+                <span>Số Dư Đầu Kỳ</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('employee')">
+                <span>�‍💼p</span> Nhân Viên
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('attendance')">
+                <i class="fas fa-clock"></i>
+                <span>Chấm Công</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('accounting')">
+                <i class="fas fa-book"></i>
+                <span>Hạch Toán</span>
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('report')">
+                <span>📈</span> Báo Cáo
+            </a>
+            <a href="#" class="menu-item" onclick="showSection('settings')">
+                <span>⚙️</span> Cài Đặt
+            </a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <!-- Dashboard -->
+        <div id="dashboard" class="section active">
+            <h1>Tổng Quan Tài Chính</h1>
+            <div class="stats-grid">
+                <div class="stat-card revenue">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Tổng Thu</h3>
+                        <p class="stat-value" id="totalRevenue">0 đ</p>
+                    </div>
+                </div>
+                <div class="stat-card expense">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-trend-down"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Tổng Chi</h3>
+                        <p class="stat-value" id="totalExpense">0 đ</p>
+                    </div>
+                </div>
+                <div class="stat-card profit">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Lợi Nhuận</h3>
+                        <p class="stat-value" id="totalProfit">0 đ</p>
+                    </div>
+                </div>
+                <div class="stat-card balance">
+                    <div class="stat-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Số Dư</h3>
+                        <p class="stat-value" id="currentBalance">0 đ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-transactions">
+                <h2>Giao Dịch Gần Đây</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Loại</th>
+                            <th>Mô Tả</th>
+                            <th>Số Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentTransactions"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Phiếu Thu -->
+        <div id="receipt" class="section">
+            <h1>Phiếu Thu</h1>
+            <div class="form-card">
+                <form id="receiptForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mã Phiếu Thu *</label>
+                            <input type="text" id="receiptCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày Thu *</label>
+                            <input type="date" id="receiptDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Khách Hàng *</label>
+                            <select id="receiptCustomer" required>
+                                <option value="">Chọn khách hàng</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Tiền *</label>
+                            <input type="number" id="receiptAmount" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Diễn Giải</label>
+                        <textarea id="receiptDescription" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Lưu Phiếu Thu</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Danh Sách Phiếu Thu</h2>
+                    <div>
+                        <button onclick="sendReportByEmail('receipts')" class="btn-export" style="background: #3498db; margin-right: 10px;">📧 Gửi Email</button>
+                        <button onclick="exportReceipts()" class="btn-export">Xuất Excel</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã PT</th>
+                            <th>Ngày</th>
+                            <th>Khách Hàng</th>
+                            <th>Số Tiền</th>
+                            <th>Diễn Giải</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="receiptList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Phiếu Chi -->
+        <div id="payment" class="section">
+            <h1>Phiếu Chi</h1>
+            <div class="form-card">
+                <form id="paymentForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mã Phiếu Chi *</label>
+                            <input type="text" id="paymentCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày Chi *</label>
+                            <input type="date" id="paymentDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nhà Cung Cấp *</label>
+                            <select id="paymentSupplier" required>
+                                <option value="">Chọn nhà cung cấp</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Tiền *</label>
+                            <input type="number" id="paymentAmount" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Diễn Giải</label>
+                        <textarea id="paymentDescription" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Lưu Phiếu Chi</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Danh Sách Phiếu Chi</h2>
+                    <div>
+                        <button onclick="sendReportByEmail('payments')" class="btn-export" style="background: #3498db; margin-right: 10px;">📧 Gửi Email</button>
+                        <button onclick="exportPayments()" class="btn-export">Xuất Excel</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã PC</th>
+                            <th>Ngày</th>
+                            <th>Nhà Cung Cấp</th>
+                            <th>Số Tiền</th>
+                            <th>Diễn Giải</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Hóa Đơn -->
+        <div id="invoice" class="section">
+            <h1>Hóa Đơn Bán Hàng</h1>
+            <div class="form-card">
+                <form id="invoiceForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Hóa Đơn *</label>
+                            <input type="text" id="invoiceNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày Hóa Đơn *</label>
+                            <input type="date" id="invoiceDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Khách Hàng *</label>
+                            <select id="invoiceCustomer" required>
+                                <option value="">Chọn khách hàng</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tổng Tiền *</label>
+                            <input type="number" id="invoiceAmount" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>VAT (%)</label>
+                            <input type="number" id="invoiceVAT" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Thành Tiền</label>
+                            <input type="number" id="invoiceTotal" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <textarea id="invoiceNote" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Lưu Hóa Đơn</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Danh Sách Hóa Đơn</h2>
+                    <button onclick="exportInvoices()" class="btn-export">Xuất Excel</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Số HĐ</th>
+                            <th>Ngày</th>
+                            <th>Khách Hàng</th>
+                            <th>Tổng Tiền</th>
+                            <th>VAT</th>
+                            <th>Thành Tiền</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoiceList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Khách Hàng -->
+        <div id="customer" class="section">
+            <h1>Quản Lý Khách Hàng</h1>
+            <div class="form-card">
+                <form id="customerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mã Khách Hàng *</label>
+                            <input type="text" id="customerCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên Khách Hàng *</label>
+                            <input type="text" id="customerName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Điện Thoại</label>
+                            <input type="tel" id="customerPhone">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="customerEmail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Địa Chỉ</label>
+                        <textarea id="customerAddress" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Thêm Khách Hàng</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <h2>Danh Sách Khách Hàng</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã KH</th>
+                            <th>Tên Khách Hàng</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Email</th>
+                            <th>Địa Chỉ</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Nhà Cung Cấp -->
+        <div id="supplier" class="section">
+            <h1>Quản Lý Nhà Cung Cấp</h1>
+            <div class="form-card">
+                <form id="supplierForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mã NCC *</label>
+                            <input type="text" id="supplierCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên NCC *</label>
+                            <input type="text" id="supplierName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Điện Thoại</label>
+                            <input type="tel" id="supplierPhone">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="supplierEmail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Địa Chỉ</label>
+                        <textarea id="supplierAddress" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Thêm Nhà Cung Cấp</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <h2>Danh Sách Nhà Cung Cấp</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã NCC</th>
+                            <th>Tên NCC</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Email</th>
+                            <th>Địa Chỉ</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="supplierList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Nguyên Vật Liệu -->
+        <div id="material" class="section">
+            <h1>Quản Lý Nguyên Vật Liệu</h1>
+            <div class="form-card">
+                <h2>Thêm Nguyên Vật Liệu</h2>
+                <form id="materialForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mã NVL *</label>
+                            <input type="text" id="materialCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên Nguyên Vật Liệu *</label>
+                            <input type="text" id="materialName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Đơn Vị Tính *</label>
+                            <input type="text" id="materialUnit" placeholder="VD: kg, cái, thùng..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Đơn Giá *</label>
+                            <input type="number" id="materialPrice" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Lượng Tồn Kho</label>
+                            <input type="number" id="materialStock" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Nhà Cung Cấp</label>
+                            <select id="materialSupplier">
+                                <option value="">Chọn nhà cung cấp</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <textarea id="materialNote" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Thêm Nguyên Vật Liệu</button>
+                </form>
+            </div>
+
+            <div class="form-card">
+                <h2>Nhập Kho Nguyên Vật Liệu</h2>
+                <form id="materialImportForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mã Phiếu Nhập *</label>
+                            <input type="text" id="importCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày Nhập *</label>
+                            <input type="date" id="importDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nguyên Vật Liệu *</label>
+                            <select id="importMaterial" required>
+                                <option value="">Chọn nguyên vật liệu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Lượng *</label>
+                            <input type="number" id="importQuantity" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Đơn Giá *</label>
+                            <input type="number" id="importPrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Thành Tiền</label>
+                            <input type="number" id="importTotal" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <textarea id="importNote" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Lưu Phiếu Nhập</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Danh Sách Nguyên Vật Liệu</h2>
+                    <div>
+                        <button onclick="exportInventoryReport()" class="btn-export" style="margin-right: 10px;">Báo Cáo XNT</button>
+                        <button onclick="exportMaterials()" class="btn-export">Xuất Excel</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã NVL</th>
+                            <th>Tên NVL</th>
+                            <th>Đơn Vị</th>
+                            <th>Đơn Giá</th>
+                            <th>Tồn Kho</th>
+                            <th>Giá Trị Tồn</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="materialList"></tbody>
+                </table>
+            </div>
+
+            <div class="form-card">
+                <h2>Xuất Kho Nguyên Vật Liệu</h2>
+                <form id="materialExportForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mã Phiếu Xuất *</label>
+                            <input type="text" id="exportCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày Xuất *</label>
+                            <input type="date" id="exportDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nguyên Vật Liệu *</label>
+                            <select id="exportMaterial" required>
+                                <option value="">Chọn nguyên vật liệu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Lượng *</label>
+                            <input type="number" id="exportQuantity" step="0.1" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mục Đích Xuất *</label>
+                            <select id="exportPurpose" required>
+                                <option value="">Chọn mục đích</option>
+                                <option value="sale">Bán cho khách hàng</option>
+                                <option value="return">Hoàn trả nhà cung cấp</option>
+                                <option value="internal">Sử dụng nội bộ</option>
+                                <option value="production">Sản xuất</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Đối Tượng</label>
+                            <select id="exportTarget">
+                                <option value="">Chọn đối tượng</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Đơn Giá Xuất</label>
+                            <input type="number" id="exportPrice" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Thành Tiền</label>
+                            <input type="number" id="exportTotal" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <textarea id="exportNote" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Lưu Phiếu Xuất</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Lịch Sử Nhập Kho</h2>
+                    <button onclick="exportImports()" class="btn-export">Xuất Excel</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã Phiếu</th>
+                            <th>Ngày</th>
+                            <th>Nguyên Vật Liệu</th>
+                            <th>Số Lượng</th>
+                            <th>Đơn Giá</th>
+                            <th>Thành Tiền</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="importList"></tbody>
+                </table>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Lịch Sử Xuất Kho</h2>
+                    <button onclick="exportMaterialExports()" class="btn-export">Xuất Excel</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã Phiếu</th>
+                            <th>Ngày</th>
+                            <th>Nguyên Vật Liệu</th>
+                            <th>Số Lượng</th>
+                            <th>Mục Đích</th>
+                            <th>Đối Tượng</th>
+                            <th>Thành Tiền</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exportList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Số Dư Đầu Kỳ -->
+        <div id="opening" class="section">
+            <h1>Số Dư Đầu Kỳ</h1>
+            
+            <div class="form-card">
+                <h2>Thiết Lập Số Dư Đầu Kỳ</h2>
+                <form id="openingBalanceForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Kỳ Kế Toán *</label>
+                            <input type="month" id="openingPeriod" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Dư Tiền Mặt *</label>
+                            <input type="number" id="openingCash" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Dư Ngân Hàng</label>
+                            <input type="number" id="openingBank" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Tổng Số Dư</label>
+                            <input type="number" id="openingTotal" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <textarea id="openingNote" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Lưu Số Dư Đầu Kỳ</button>
+                </form>
+            </div>
+
+            <div class="form-card">
+                <h2>Công Nợ Phải Thu Đầu Kỳ</h2>
+                <form id="receivableForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Khách Hàng *</label>
+                            <select id="receivableCustomer" required>
+                                <option value="">Chọn khách hàng</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Tiền Nợ *</label>
+                            <input type="number" id="receivableAmount" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <textarea id="receivableNote" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Thêm Công Nợ Phải Thu</button>
+                </form>
+
+                <table style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Khách Hàng</th>
+                            <th>Số Tiền Nợ</th>
+                            <th>Ghi Chú</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="receivableList"></tbody>
+                </table>
+            </div>
+
+            <div class="form-card">
+                <h2>Công Nợ Phải Trả Đầu Kỳ</h2>
+                <form id="payableForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nhà Cung Cấp *</label>
+                            <select id="payableSupplier" required>
+                                <option value="">Chọn nhà cung cấp</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Tiền Nợ *</label>
+                            <input type="number" id="payableAmount" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <textarea id="payableNote" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Thêm Công Nợ Phải Trả</button>
+                </form>
+
+                <table style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Nhà Cung Cấp</th>
+                            <th>Số Tiền Nợ</th>
+                            <th>Ghi Chú</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payableList"></tbody>
+                </table>
+            </div>
+
+            <div class="data-table">
+                <h2>Tổng Hợp Số Dư Đầu Kỳ</h2>
+                <div class="report-summary">
+                    <div class="summary-card">
+                        <h3>Tiền Mặt + Ngân Hàng</h3>
+                        <p id="summaryBalance" class="amount-positive">0 đ</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Công Nợ Phải Thu</h3>
+                        <p id="summaryReceivable" class="amount-positive">0 đ</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Công Nợ Phải Trả</h3>
+                        <p id="summaryPayable" class="amount-negative">0 đ</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Tổng Tài Sản</h3>
+                        <p id="summaryTotal">0 đ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nhân Viên -->
+        <div id="employee" class="section">
+            <h1>Quản Lý Nhân Viên</h1>
+            <div class="form-card">
+                <form id="employeeForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mã Nhân Viên *</label>
+                            <input type="text" id="empCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Họ Tên *</label>
+                            <input type="text" id="empName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Điện Thoại</label>
+                            <input type="tel" id="empPhone">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="empEmail">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Chức Vụ *</label>
+                            <input type="text" id="empPosition" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phòng Ban</label>
+                            <input type="text" id="empDepartment">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Lương Cơ Bản *</label>
+                            <input type="number" id="empBaseSalary" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Vùng Lương *</label>
+                            <select id="empRegion" required>
+                                <option value="region1">Vùng I (4,960,000đ)</option>
+                                <option value="region2">Vùng II (4,410,000đ)</option>
+                                <option value="region3">Vùng III (3,860,000đ)</option>
+                                <option value="region4">Vùng IV (3,450,000đ)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Người Phụ Thuộc</label>
+                            <input type="number" id="empDependents" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày Vào Làm</label>
+                            <input type="date" id="empStartDate">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Thêm Nhân Viên</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Danh Sách Nhân Viên</h2>
+                    <button onclick="exportEmployees()" class="btn-export">Xuất Excel</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã NV</th>
+                            <th>Họ Tên</th>
+                            <th>Chức Vụ</th>
+                            <th>Phòng Ban</th>
+                            <th>Lương CB</th>
+                            <th>Vùng</th>
+                            <th>NPT</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Chấm Công -->
+        <div id="attendance" class="section">
+            <h1>Chấm Công & Tính Lương</h1>
+            
+            <div class="form-card">
+                <h2>Chấm Công Theo Tháng</h2>
+                <form id="attendanceForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nhân Viên *</label>
+                            <select id="attEmployee" required>
+                                <option value="">Chọn nhân viên</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tháng *</label>
+                            <input type="month" id="attMonth" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Ngày Công *</label>
+                            <input type="number" id="attWorkDays" step="0.5" min="0" max="31" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Giờ Tăng Ca</label>
+                            <input type="number" id="attOvertimeHours" step="0.5" min="0" value="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phụ Cấp</label>
+                            <input type="number" id="attAllowance" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Thưởng</label>
+                            <input type="number" id="attBonus" value="0">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Tính Lương</button>
+                </form>
+            </div>
+
+            <div class="salary-preview form-card" id="salaryPreview" style="display: none;">
+                <h2>Chi Tiết Lương</h2>
+                <div class="salary-details">
+                    <div class="salary-row">
+                        <span>Lương Cơ Bản:</span>
+                        <strong id="previewBaseSalary">0 đ</strong>
+                    </div>
+                    <div class="salary-row">
+                        <span>Lương Theo Ngày Công:</span>
+                        <strong id="previewWorkSalary">0 đ</strong>
+                    </div>
+                    <div class="salary-row">
+                        <span>Lương Tăng Ca:</span>
+                        <strong id="previewOvertimeSalary">0 đ</strong>
+                    </div>
+                    <div class="salary-row">
+                        <span>Phụ Cấp:</span>
+                        <strong id="previewAllowance">0 đ</strong>
+                    </div>
+                    <div class="salary-row">
+                        <span>Thưởng:</span>
+                        <strong id="previewBonus">0 đ</strong>
+                    </div>
+                    <div class="salary-row total">
+                        <span>Tổng Thu Nhập:</span>
+                        <strong id="previewGrossIncome">0 đ</strong>
+                    </div>
+                    <hr>
+                    <div class="salary-row deduction">
+                        <span>BHXH (8%):</span>
+                        <strong id="previewBHXH">0 đ</strong>
+                    </div>
+                    <div class="salary-row deduction">
+                        <span>BHYT (1.5%):</span>
+                        <strong id="previewBHYT">0 đ</strong>
+                    </div>
+                    <div class="salary-row deduction">
+                        <span>BHTN (1%):</span>
+                        <strong id="previewBHTN">0 đ</strong>
+                    </div>
+                    <div class="salary-row deduction">
+                        <span>Tổng BH (10.5%):</span>
+                        <strong id="previewTotalInsurance">0 đ</strong>
+                    </div>
+                    <hr>
+                    <div class="salary-row">
+                        <span>Thu Nhập Trước Thuế:</span>
+                        <strong id="previewTaxableIncome">0 đ</strong>
+                    </div>
+                    <div class="salary-row">
+                        <span>Giảm Trừ Bản Thân:</span>
+                        <strong id="previewSelfDeduction">11,000,000 đ</strong>
+                    </div>
+                    <div class="salary-row">
+                        <span>Giảm Trừ Người PT:</span>
+                        <strong id="previewDependentDeduction">0 đ</strong>
+                    </div>
+                    <div class="salary-row">
+                        <span>Thu Nhập Tính Thuế:</span>
+                        <strong id="previewTaxBase">0 đ</strong>
+                    </div>
+                    <div class="salary-row deduction">
+                        <span>Thuế TNCN:</span>
+                        <strong id="previewTax">0 đ</strong>
+                    </div>
+                    <hr>
+                    <div class="salary-row net">
+                        <span>LƯƠNG THỰC LĨNH:</span>
+                        <strong id="previewNetSalary">0 đ</strong>
+                    </div>
+                </div>
+                <button onclick="saveAttendance()" class="btn-primary">Lưu Bảng Lương</button>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Bảng Lương Tháng</h2>
+                    <div>
+                        <button onclick="sendReportByEmail('salaries')" class="btn-export" style="background: #3498db; margin-right: 10px;">📧 Gửi Email</button>
+                        <button onclick="exportSalaries()" class="btn-export">Xuất Excel</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tháng</th>
+                            <th>Nhân Viên</th>
+                            <th>Ngày Công</th>
+                            <th>Tổng Thu</th>
+                            <th>Bảo Hiểm</th>
+                            <th>Thuế TNCN</th>
+                            <th>Thực Lĩnh</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Hạch Toán -->
+        <div id="accounting" class="section">
+            <h1>Hạch Toán Kế Toán</h1>
+            
+            <div class="form-card">
+                <h2>Tạo Bút Toán</h2>
+                <form id="accountingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Chứng Từ *</label>
+                            <input type="text" id="accVoucherNo" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày Chứng Từ *</label>
+                            <input type="date" id="accDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tài Khoản Nợ *</label>
+                            <select id="accDebit" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tài Khoản Có *</label>
+                            <select id="accCredit" required></select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Số Tiền *</label>
+                            <input type="number" id="accAmount" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Loại Chứng Từ</label>
+                            <select id="accType">
+                                <option value="manual">Nhập tay</option>
+                                <option value="receipt">Phiếu thu</option>
+                                <option value="payment">Phiếu chi</option>
+                                <option value="invoice">Hóa đơn</option>
+                                <option value="salary">Bảng lương</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Diễn Giải</label>
+                        <textarea id="accDescription" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Ghi Sổ</button>
+                </form>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Sổ Nhật Ký Chung</h2>
+                    <div>
+                        <button onclick="sendReportByEmail('accounting')" class="btn-export" style="background: #3498db; margin-right: 10px;">📧 Gửi Email</button>
+                        <button onclick="exportAccounting()" class="btn-export">Xuất Excel</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Số CT</th>
+                            <th>Diễn Giải</th>
+                            <th>TK Nợ</th>
+                            <th>TK Có</th>
+                            <th>Số Tiền</th>
+                            <th>Loại</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accountingList"></tbody>
+                </table>
+            </div>
+
+            <div class="form-card">
+                <h2>Báo Cáo Tài Khoản</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Chọn Tài Khoản</label>
+                        <select id="reportAccount"></select>
+                    </div>
+                    <button onclick="generateAccountReport()" class="btn-primary">Xem Báo Cáo</button>
+                </div>
+                <div id="accountReport" class="account-report" style="display: none;">
+                    <h3>Sổ Cái Tài Khoản <span id="reportAccountName"></span></h3>
+                    <div class="account-summary">
+                        <div class="summary-item">
+                            <span>Tổng Nợ:</span>
+                            <strong id="reportTotalDebit">0 đ</strong>
+                        </div>
+                        <div class="summary-item">
+                            <span>Tổng Có:</span>
+                            <strong id="reportTotalCredit">0 đ</strong>
+                        </div>
+                        <div class="summary-item">
+                            <span>Số Dư:</span>
+                            <strong id="reportBalance">0 đ</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cài Đặt -->
+        <div id="settings" class="section">
+            <h1>Cài Đặt Hệ Thống</h1>
+            
+            <div class="form-card">
+                <h2>🔄 Sao Lưu & Khôi Phục Dữ Liệu</h2>
+                <div class="settings-actions">
+                    <button onclick="backupData()" class="btn-backup">
+                        💾 Sao Lưu Dữ Liệu
+                    </button>
+                    <button onclick="document.getElementById('restoreFile').click()" class="btn-restore">e
+                        📥 Khôi Phục Dữ Liệu
+                    </button>
+                    <input type="file" id="restoreFile" accept=".json" style="display: none;" onchange="restoreData(event)">
+                </div>
+                <p class="settings-note">💡 Sao lưu dữ liệu trước khi reset để tránh mất dữ liệu quan trọng</p>
+            </div>
+
+            <div class="form-card">
+                <h2>🗑️ Xóa Dữ Liệu</h2>
+                <div class="reset-options">
+                    <div class="reset-item">
+                        <h3>Xóa Giao Dịch</h3>
+                        <p>Xóa phiếu thu, phiếu chi, hóa đơn (giữ lại khách hàng, NCC, NVL)</p>
+                        <button onclick="resetTransactions()" class="btn-warning">Xóa Giao Dịch</button>
+                    </div>
+                    <div class="reset-item">
+                        <h3>Xóa Tất Cả Dữ Liệu</h3>
+                        <p>Xóa toàn bộ dữ liệu trong hệ thống (backup tự động)</p>
+                        <button onclick="resetAllData()" class="btn-danger">Xóa Tất Cả</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h2>📧 Cấu Hình Email</h2>
+                <p style="color: #666; margin-bottom: 15px;">
+                    Cấu hình để gửi báo cáo qua email. Đăng ký miễn phí tại 
+                    <a href="https://www.emailjs.com/" target="_blank" style="color: #3498db;">EmailJS.com</a>
+                </p>
+                <button onclick="showEmailConfigForm()" class="btn-primary">
+                    ⚙️ Cấu Hình Email
+                </button>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #7f8c8d;">
+                    Trạng thái: <strong id="emailStatus" style="color: #e74c3c;">Chưa cấu hình</strong>
+                </p>
+            </div>
+
+            <div class="form-card">
+                <h2>📊 Thông Tin Hệ Thống</h2>
+                <div class="system-info">
+                    <div class="info-row">
+                        <span>Khách Hàng:</span>
+                        <strong id="infoCustomers">0</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Nhà Cung Cấp:</span>
+                        <strong id="infoSuppliers">0</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Phiếu Thu:</span>
+                        <strong id="infoReceipts">0</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Phiếu Chi:</span>
+                        <strong id="infoPayments">0</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Hóa Đơn:</span>
+                        <strong id="infoInvoices">0</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Nguyên Vật Liệu:</span>
+                        <strong id="infoMaterials">0</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Phiếu Nhập Kho:</span>
+                        <strong id="infoImports">0</strong>
+                    </div>
+                </div>
+                <button onclick="updateSystemInfo()" class="btn-primary" style="margin-top: 15px;">
+                    🔄 Cập Nhật Thông Tin
+                </button>
+            </div>
+        </div>
+
+        <!-- Báo Cáo -->
+        <div id="report" class="section">
+            <h1>Báo Cáo Tài Chính</h1>
+            
+            <div class="report-filter">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Từ Ngày</label>
+                        <input type="date" id="reportStartDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Đến Ngày</label>
+                        <input type="date" id="reportEndDate">
+                    </div>
+                    <button onclick="generateReport()" class="btn-primary">Tạo Báo Cáo</button>
+                </div>
+            </div>
+
+            <div class="report-summary">
+                <div class="summary-card">
+                    <h3>Tổng Thu</h3>
+                    <p id="reportRevenue" class="amount-positive">0 đ</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Tổng Chi</h3>
+                    <p id="reportExpense" class="amount-negative">0 đ</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Lợi Nhuận</h3>
+                    <p id="reportProfit">0 đ</p>
+                </div>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">
+                    <h2>Chi Tiết Giao Dịch</h2>
+                    <button onclick="exportReport()" class="btn-export">Xuất Excel</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Loại</th>
+                            <th>Mã</th>
+                            <th>Đối Tượng</th>
+                            <th>Thu</th>
+                            <th>Chi</th>
+                            <th>Diễn Giải</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportDetails"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="chart-of-accounts.js"></script>
+    <script src="script.js"></script>
+    <script src="payroll-accounting.js"></script>
+    <script src="material-export.js"></script>
+    <script src="email-service.js"></script>
+    <script src="table-wrapper.js"></script>
+</body>
+</html>
